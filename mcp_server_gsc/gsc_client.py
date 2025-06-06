@@ -35,6 +35,33 @@ class GSCClient:
             str(self.credentials_path)
         )
 
+    async def list_sites(self) -> Dict[str, Any]:
+        """List all sites in the Google Search Console account.
+
+        Returns:
+            A dictionary containing the list of sites.
+        """
+        try:
+            response = self.service.sites().list().execute()
+            
+            sites = response.get('siteEntry', [])
+            formatted_sites = []
+            
+            for site in sites:
+                site_info = {
+                    'siteUrl': site.get('siteUrl', ''),
+                    'permissionLevel': site.get('permissionLevel', ''),
+                }
+                formatted_sites.append(site_info)
+            
+            return {
+                'sites': formatted_sites,
+                'total_sites': len(formatted_sites)
+            }
+            
+        except Exception as e:
+            raise Exception(f"Error listing sites: {str(e)}")
+
     async def get_search_analytics(
         self,
         site_url: str,
@@ -131,4 +158,4 @@ class GSCClient:
         return {
             "rows": formatted_rows,
             "responseAggregationType": response.get("responseAggregationType", ""),
-        } 
+        }

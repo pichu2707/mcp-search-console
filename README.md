@@ -1,224 +1,72 @@
-# Google Search Console MCP Server
+# MCP Server para Google Search Console
 
-A tool for accessing Google Search Console using the Model Context Protocol (MCP) server.
+Este código está basado en el código de [Github de Guchey]('https://github.com/guchey/mcp-server-google-search-console') donde vamos a tener un MCP que nos conecte **Claude Desktop** para poderlo utilizar de herramienta.
 
-## Features
+## Caractéristicas
+* Recuperar datos de analíticade búsqueda (con soporte de dimensión)
+* Análisis detallado con los periodos de información
 
-* Retrieve search analytics data (with dimension support)
-* Detailed data analysis with customizable reporting periods
+## Prerrequisitos
+* Python 3.10 o superior
+* Proyecto de Google Cloud con la API de Google Search Console
+* Credenciales de la cuenta de servicio con acceso a Search Console
 
-## Prerequisites
-
-* Python 3.10 or higher
-* Google Cloud project with Search Console API enabled
-* Service account credentials with access to Search Console
-
-## Installation
-
-```bash
-pip install mcp-server-google-search-console
+## Instalación
+Creando un entorno virtual con **uv**
+Windows
+```shell
+uv venv
+.venv\Script\activate
 ```
 
-Or install from source:
-
-```bash
-git clone https://github.com/yourusername/mcp-server-google-search-console.git
-cd mcp-server-google-search-console
-pip install -e .
-```
-
-## Setting Up Development Environment (uv)
-
-This project uses uv for faster package management and installation.
-
-### Installing uv and uvx
-
-First, install uv and uvx:
-
-```bash
-pip install uv uvx
-```
-
-### Creating and Managing Virtual Environments
-
-To create a new virtual environment using uv:
-
+Linux o Bash
 ```bash
 uv venv
-source .venv/bin/activate  # Linux/macOS
-.venv\Scripts\activate     # Windows
+source .venv/bin/activate
 ```
 
-### Installing Dependencies
+## Instalación de dependencias 
 
-After cloning the repository, install dependencies:
+### Instalando el paquete MCP por separado
+```pip install "mcp[cli]"```
 
-```bash
-git clone https://github.com/yourusername/mcp-server-google-search-console.git
-cd mcp-server-google-search-console
-pip install -e .
-```
+## Configuración de la autentificación
 
-To install the MCP package separately:
+Para obtener las credenciales de la API de Google Search Console:
 
-```bash
-pip install "mcp[cli]"
-```
+Acceder a la consola de [Google Cloud]('https://console.cloud.google.com/')
+* Crea un nuevo proyecto o selecciona uno existente
+* Habilitar la API:
+* * Vaya a "API y servicios" > "Biblioteca".
+Busque y habilite "API de Search Console"
+Crear credenciales:
+* Vaya a "API y servicios" > "Credenciales".
+* * Haga clic en "Crear credenciales" > "Cuenta de servicio".
+* Ingrese los detalles de la cuenta de servicio
+* Crear una nueva clave en formato JSON
+* El archivo de credenciales (.json) se descargará automáticamente
+Conceder acceso:
+* Abrir Search Console
+* *  Agregue la dirección de correo electrónico de la cuenta de servicio (formato: nombre@proyecto.iam.gserviceaccount.com ) como administrador de la propiedad
 
-### Installing Development Dependencies
 
-To install additional tools needed for development, run:
-
-```bash
-pip install -e ".[dev]"
-```
-
-## Authentication Setup
-
-To obtain Google Search Console API credentials:
-
-1. Access the [Google Cloud Console](https://console.cloud.google.com/)
-2. Create a new project or select an existing one
-3. Enable the API:
-   * Go to "APIs & Services" > "Library"
-   * Search for and enable "Search Console API"
-4. Create credentials:
-   * Go to "APIs & Services" > "Credentials"
-   * Click "Create Credentials" > "Service Account"
-   * Enter service account details
-   * Create a new key in JSON format
-   * The credentials file (.json) will be automatically downloaded
-5. Grant access:
-   * Open Search Console
-   * Add the service account email address (format: name@project.iam.gserviceaccount.com) as a property administrator
-
-## Usage
-
-Set an environment variable to specify the path to your Google Search Console credentials file:
-
-```bash
-export GOOGLE_APPLICATION_CREDENTIALS=/path/to/credentials.json
-```
-
-### Starting the MCP Server
-
-#### Standard Method
-
-```bash
-mcp-server-gsc
-```
-
-#### Using uvx
-
-With uvx, you can automate virtual environment and package installation:
-
-```bash
-# Run directly without installation
-uvx run mcp-server-gsc
-
-# Run with a specific Python version
-uvx --python=3.11 run mcp-server-gsc
-
-# Run with specified environment variables
-uvx run -e GOOGLE_APPLICATION_CREDENTIALS=/path/to/credentials.json mcp-server-gsc
-```
-
-### Configuration for Claude Desktop Application
-
-#### Standard Configuration
-
+## Configuración de la aplicación de escritorio de Claude
 ```json
 {
   "mcpServers": {
-    "gsc": {
-      "command": "mcp-server-gsc",
-      "env": {
-        "GOOGLE_APPLICATION_CREDENTIALS": "/path/to/credentials.json"
+    "google-search-console": {
+            "command": "C:\\Users\\pichu\\OneDrive\\Documentos\\MCP\\mcp-gsc\\mcp-server-google-search-console\\.venv\\Scripts\\python.exe",
+            "args": [
+            "-m",
+            "mcp_server_gsc",
+            "--credentials",
+            "C:\\Users\\pichu\\OneDrive\\Documentos\\MCP\\mcp-gsc\\credentials\\credentials.json"
+            ]
+        }
       }
-    }
-  }
 }
 ```
 
-#### Configuration Using uvx
-
-```json
-{
-  "mcpServers": {
-    "gsc": {
-      "command": "uvx",
-      "args": ["run", "mcp-server-gsc"],
-      "env": {
-        "GOOGLE_APPLICATION_CREDENTIALS": "/path/to/credentials.json"
-      }
-    }
-  }
-}
-```
-
-## Available Tools
-
-### search_analytics
-
-Retrieve search performance data from Google Search Console:
-
-**Required Parameters:**
-
-* `siteUrl`: Site URL (format: `http://www.example.com/` or `sc-domain:example.com`)
-* `startDate`: Start date (YYYY-MM-DD)
-* `endDate`: End date (YYYY-MM-DD)
-
-**Optional Parameters:**
-
-* `dimensions`: Comma-separated list (`query,page,country,device,searchAppearance`)
-* `type`: Search type (`web`, `image`, `video`, `news`)
-* `aggregationType`: Aggregation method (`auto`, `byNewsShowcasePanel`, `byProperty`, `byPage`)
-* `rowLimit`: Maximum number of rows to return (default: 1000)
-
-Example usage:
-
-```json
-{
-  "siteUrl": "https://example.com",
-  "startDate": "2024-01-01",
-  "endDate": "2024-01-31",
-  "dimensions": "query,country",
-  "type": "web",
-  "rowLimit": 500
-}
-```
-
-## Release Procedure
-
-This project is automatically published to PyPI when a GitHub release tag is created.
-
-To release a new version:
-
-1. Run the version update script:
-   ```bash
-   python scripts/bump_version.py [major|minor|patch]
-   ```
-
-2. Follow the displayed instructions to push to GitHub:
-   ```bash
-   git add pyproject.toml
-   git commit -m "Bump version to x.y.z"
-   git tag vx.y.z
-   git push origin main vx.y.z
-   ```
-
-3. Create a release on the GitHub repository page:
-   - Select tag: `vx.y.z`
-   - Enter title: `vx.y.z`
-   - Fill in release notes
-   - Click "Publish"
-
-4. GitHub Actions will be triggered and automatically publish the package to PyPI.
-
-## License
-
+## Licencia
 MIT
 
-## Contributions
-
-Contributions are welcome! Please read the contribution guidelines before submitting a pull request.

@@ -172,3 +172,8 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+
+# script de test
+test_mcp.py
+mcp_test.log

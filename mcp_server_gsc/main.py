@@ -7,7 +7,6 @@ from pathlib import Path
 from typing import Optional
 
 import typer
-from mcp.server.stdio import stdio_server
 
 from .config import Config
 from .server import GSCMCPServer
@@ -39,13 +38,6 @@ def main(
     # Create server configuration
     config = Config(google_credentials_path=str(credentials_path) if credentials_path else None)
     
-    # Create server instance
-    server = GSCMCPServer(config)
-    
-    # Set up logging
-    if verbose:
-        server.log_level = "DEBUG"
-    
     # Check for credentials
     if not config.google_credentials:
         typer.echo(
@@ -63,11 +55,15 @@ def main(
         )
         raise typer.Exit(code=1)
     
-    typer.echo(f"Starting MCP server with credentials: {config.google_credentials}")
+    if verbose:
+        typer.echo(f"Starting MCP server with credentials: {config.google_credentials}")
     
-    # Run the stdio server
-    asyncio.run(stdio_server(server))
+    # Create server instance
+    server = GSCMCPServer(config)
+    
+    # Run the server
+    asyncio.run(server.run())
 
 
 if __name__ == "__main__":
-    app() 
+    app()
