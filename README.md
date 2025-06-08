@@ -37,24 +37,24 @@ Para obtener las credenciales de la API de Google Search Console:
 Acceder a la consola de [Google Cloud]('https://console.cloud.google.com/')
 * Crea un nuevo proyecto o selecciona uno existente
 * Habilitar la API:
-* * Vaya a "API y servicios" > "Biblioteca".
+  * Vaya a "API y servicios" > "Biblioteca".
 * Busque y habilite "API de Search Console"
 Crear credenciales:
 * Vaya a "API y servicios" > "Credenciales".
-* * Haga clic en "Crear credenciales" > "Cuenta de servicio".
+  * Haga clic en "Crear credenciales" > "Cuenta de servicio".
 * Ingrese los detalles de la cuenta de servicio
 * Crear una nueva clave en formato JSON
 * El archivo de credenciales (.json) se descargará automáticamente
 Conceder acceso:
 * Abrir Search Console
-* *  Agregue la dirección de correo electrónico de la cuenta de servicio (formato: nombre@proyecto.iam.gserviceaccount.com ) como administrador de la propiedad
+  * Agregue la dirección de correo electrónico de la cuenta de servicio (formato: nombre@proyecto.iam.gserviceaccount.com ) como administrador de la propiedad
 
 
 ## Configuración de la aplicación de escritorio de Claude
 ```json
 {
   "mcpServers": {
-    "google-search-console": {
+    "gsc": {
             "command": "C:\\Users\\pichu\\OneDrive\\Documentos\\MCP\\mcp-gsc\\mcp-server-google-search-console\\.venv\\Scripts\\python.exe",
             "args": [
             "-m",

@@ -1,13 +1,15 @@
 [project]
-name = "mcp-server-google-search-console"
-version = "0.1.0"
-description = "MCP server for Google Search Console"
+name = "mcp_server_gsc"
+version = "0.0.1"
+description = "MCP server para Google Search Console donde podemos hacer las peticiones directamente en Google Claude y usarlo como herramienta"
 authors = [
-    {name = "guchey", email = "taguchi8shingen@gmail.com"},
+    {
+        name = "JaviLazaro (Pichu)", email="hola@javilazaro.es"
+    },
 ]
-readme = "README.md"
+readme = README.md
 requires-python = ">=3.10"
-license = {text = "MIT"}
+license = { text = "MIT" }
 dependencies = [
     "mcp[cli]",
     "google-api-python-client",
@@ -27,11 +29,11 @@ classifiers = [
     "Programming Language :: Python :: 3.12",
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
-keywords = ["mcp", "google search console", "claude", "ai"]
+keywords = ["mcp", "google search console", "claude", "ai", "gsc"]
 
 [project.urls]
-"Homepage" = "https://github.com/guchey/mcp-server-google-search-console"
-"Bug Tracker" = "https://github.com/guchey/mcp-server-google-search-console/issues"
+"Homepage" = "https://github.com/pichu2707/mcp-search-console"
+"Bug Tracker" = "https://github.com/pichu2707/mcp-search-console/issues"
 
 [build-system]
 requires = ["setuptools>=61.0"]
@@ -49,7 +51,6 @@ dev = [
 mcp-server-gsc = "mcp_server_gsc.main:app"
 
 [tool.ruff]
-line-length = 88
 target-version = "py310"
 
 [tool.pytest.ini_options]
