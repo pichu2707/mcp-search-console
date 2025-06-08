@@ -136,10 +136,6 @@ ENV/
 env.bak/
 venv.bak/
 
-# Spyder project settings
-.spyderproject
-.spyproject
-
 # Rope project settings
 .ropeproject
 
@@ -177,3 +173,6 @@ cython_debug/
 # script de test
 test_mcp.py
 mcp_test.log
+
+# capreta de credenciales
+credentials/

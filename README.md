@@ -38,7 +38,7 @@ Acceder a la consola de [Google Cloud]('https://console.cloud.google.com/')
 * Crea un nuevo proyecto o selecciona uno existente
 * Habilitar la API:
 * * Vaya a "API y servicios" > "Biblioteca".
-Busque y habilite "API de Search Console"
+* Busque y habilite "API de Search Console"
 Crear credenciales:
 * Vaya a "API y servicios" > "Credenciales".
 * * Haga clic en "Crear credenciales" > "Cuenta de servicio".
