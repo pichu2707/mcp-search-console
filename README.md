@@ -29,7 +29,7 @@ source .venv/bin/activate
 
 ### Instalación de dependencias 
 ```bash
-pip install "mcp[cli]"
+uv install "mcp[cli]"
 ```
 
 ## Configuración de la autenticación
