@@ -32,6 +32,43 @@ source .venv/bin/activate
 uv install "mcp[cli]"
 ```
 
+## Troubleshooting
+
+### Error: `tomllib.TOMLDecodeError: Invalid initial character for a key part`
+
+Este error indica un problema de sintaxis en el archivo `pyproject.toml`. Los errores más comunes son:
+
+1. **Tablas inline mal formateadas**: Las tablas inline (`{}`) deben estar en una sola línea
+   ```toml
+   # ❌ Incorrecto
+   authors = [
+       {
+           name = "Autor", email = "email@example.com"
+       },
+   ]
+   
+   # ✅ Correcto
+   authors = [
+       { name = "Autor", email = "email@example.com" }
+   ]
+   ```
+
+2. **Falta de espacios**: Debe haber espacios alrededor del signo `=`
+   ```toml
+   # ❌ Incorrecto
+   name="valor"
+   
+   # ✅ Correcto
+   name = "valor"
+   ```
+
+3. **Comas innecesarias**: No agregar comas al final de elementos únicos en arrays
+
+Para verificar la sintaxis del archivo:
+```bash
+python -c "import tomllib; tomllib.load(open('pyproject.toml', 'rb')); print('✓ pyproject.toml es válido')"
+```
+
 ## Configuración de la autenticación
 
 Para obtener las credenciales de la API de Google Search Console:

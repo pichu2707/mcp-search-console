@@ -3,11 +3,9 @@ name = "mcp_server_gsc"
 version = "0.0.1"
 description = "MCP server para Google Search Console donde podemos hacer las peticiones directamente en Google Claude y usarlo como herramienta"
 authors = [
-    {
-        name = "JaviLazaro (Pichu)", email="hola@javilazaro.es"
-    },
+    { name = "JaviLazaro", email = "hola@javilazaro.es" }
 ]
-readme = README.md
+readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }
 dependencies = [
